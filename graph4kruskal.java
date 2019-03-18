@@ -9,7 +9,7 @@ public class graph4kruskal {
     private final DArray<Edge> Edges; // массив ребер минимального остовного дерева
     private final DArray<Integer> Unit; // Union
     private int sizeEdges; // общее число ребер графа
-    public int sizeEdgesKruskal; // число ребер минимального остовного дерева
+    private int sizeEdgesKruskal; // число ребер минимального остовного дерева
     private int sizeVertex; // общее число вершин графа
 
     graph4kruskal() {
@@ -34,7 +34,7 @@ public class graph4kruskal {
         G.add(g_i, tmp);
     }
 
-    public eWeight get(int g_i, int el_i) { // получение вершины с весом из матрицы вектора смежности (g_i - вершина с которой идет связь на нашу вершину, el_i индекс массива вершин для вершины g_i)
+    private eWeight get(int g_i, int el_i) { // получение вершины с весом из матрицы вектора смежности (g_i - вершина с которой идет связь на нашу вершину, el_i индекс массива вершин для вершины g_i)
         DArray<eWeight> tmp = G.get(g_i);
         return tmp.get(el_i);
     }
@@ -43,12 +43,12 @@ public class graph4kruskal {
         return G.size();
     }
 
-    public int sizeS(int v) { // число вершин, на которые есть связь с вершины v
+    private int sizeS(int v) { // число вершин, на которые есть связь с вершины v
         DArray<eWeight> tmp = G.get(v);
         return tmp.size();
     }
 
-    public void addEdge(int v1, eWeight v2) { // добавление ребра в массив всех ребер
+    private void addEdge(int v1, eWeight v2) { // добавление ребра в массив всех ребер
 //        DArray<Edge> tmp;
         int v_1 = v1;
         int v_2 = v2.vertex;
@@ -57,7 +57,7 @@ public class graph4kruskal {
         sizeEdges++;
     }
 
-    public void createArrayEdges() { // заполнение массива всех ребер
+    private void createArrayEdges() { // заполнение массива всех ребер
         for (int i = 0; i < sizeV(); i++) {
             for (int j = 0; j < sizeS(i); j++) {
                 addEdge(i, get(i, j));
@@ -72,7 +72,7 @@ public class graph4kruskal {
         }
     }
 
-    public void sortingArrayEdges() { // сортировка массива всех ребер по весу
+    private void sortingArrayEdges() { // сортировка массива всех ребер по весу
         int in, out;
         for (out = 1; out < sizeEdges; out++) {
             Edge temp = AllEdges.get(out);
@@ -85,14 +85,14 @@ public class graph4kruskal {
         }
     }
 
-    public void initUnit() { // вначале каждая вершина не объеденена с другими
+    private void initUnit() { // вначале каждая вершина не объеденена с другими
         sizeVertex();
         for (int i = 0; i < sizeVertex; i++) {
             Unit.add(i, i);
         }
     }
 
-    public void setUnit(int u1, int u2) { // объединение по минимальному значению (схлопывание)
+    private void setUnit(int u1, int u2) { // объединение по минимальному значению (схлопывание)
         int min = u2;
         int max = u1;
         if (u1 < u2) {
@@ -106,7 +106,7 @@ public class graph4kruskal {
         }
     }
 
-    public void sizeVertex() { // число вершин графа - ищем через максимальное значение из V1 или V2
+    private void sizeVertex() { // число вершин графа - ищем через максимальное значение из V1 или V2
         for (int i = 0; i < sizeEdges; i++) {
             if (sizeVertex < AllEdges.get(i).V1) {
                 sizeVertex = AllEdges.get(i).V1;
