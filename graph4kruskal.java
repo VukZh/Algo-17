@@ -3,7 +3,7 @@ package kruskalapp;
 import java.util.Objects;
 
 public class graph4kruskal {
-    
+
     private final DArray<DArray<eWeight>> G; // граф
     private final DArray<Edge> AllEdges; // массив всех ребер
     private final DArray<Edge> Edges; // массив ребер минимального остовного дерева
@@ -20,7 +20,23 @@ public class graph4kruskal {
         sizeEdges = 0;
         sizeVertex = 0;
         sizeEdgesKruskal = 0;
+    }
 
+    graph4kruskal(int size) {
+
+        G = new DArray<>();
+        DArray<eWeight> tmp = new DArray<>();
+        tmp.add(0, null);
+        for (int i = 0; i < size; i++) {
+            G.add(i, tmp);
+        }
+
+        AllEdges = new DArray<>();
+        Edges = new DArray<>();
+        Unit = new DArray<>();
+        sizeEdges = 0;
+        sizeVertex = size;
+        sizeEdgesKruskal = 0;
     }
 
     public void set(int g_i, int el_i, eWeight ew) { // установка для матрицы вектора смежности (g_i - вершина, el_i индекс массива вершин куда уходят ребра, ew - объект - вершина на которую можно уйти с g_i с весом ребра)
@@ -32,6 +48,14 @@ public class graph4kruskal {
         }
         tmp.add(el_i, ew);
         G.add(g_i, tmp);
+    }
+
+    public void setArr(int v, int[] vertex, int[] weight) { // 
+        int g_i = v;
+        int sizeArr = vertex.length;
+        for (int el_i = 0; el_i < sizeArr; el_i++) {
+            set(g_i, el_i, new eWeight(vertex[el_i], weight[el_i]));
+        }
     }
 
     private eWeight get(int g_i, int el_i) { // получение вершины с весом из матрицы вектора смежности (g_i - вершина с которой идет связь на нашу вершину, el_i индекс массива вершин для вершины g_i)
@@ -140,7 +164,7 @@ public class graph4kruskal {
     public void displayMST() { // вывод минимального остовного дерева
         System.out.println("Kruskal find MST:");
         for (int i = 0; i < sizeEdgesKruskal; i++) {
-            System.out.println(i + "- " + Edges.get(i).V1 + " " + Edges.get(i).V2 + " " + Edges.get(i).W);
+            System.out.println(i + "-" + Edges.get(i).V1 + " " + Edges.get(i).V2 + " " + Edges.get(i).W);
         }
     }
 

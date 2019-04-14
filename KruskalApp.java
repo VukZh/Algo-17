@@ -4,32 +4,21 @@ public class KruskalApp {
 
     public static void main(String[] args) {
 
-        graph4kruskal G = new graph4kruskal();
+        graph4kruskal G = new graph4kruskal(10);
 
-        G.set(0, 0, new eWeight(1, 3)); // ввод графа
-        G.set(0, 1, new eWeight(2, 3));
-        G.set(0, 2, new eWeight(3, 5));
-        G.set(0, 3, new eWeight(4, 1));
-        G.set(1, 0, new eWeight(5, 2));
-        G.set(2, 0, new eWeight(3, 1));
-        G.set(2, 1, new eWeight(7, 4));
-        G.set(3, 0, new eWeight(4, 2));
-        G.set(3, 1, new eWeight(6, 3));
-        G.set(3, 2, new eWeight(7, 2));
-        G.set(3, 3, new eWeight(10, 2));
-        G.set(4, 0, new eWeight(5, 1)); // 4- вершина; 0 - индекс вектора смежности; 5- соединенная вершина; 1 - вес
-        G.set(4, 1, new eWeight(6, 2));
-        G.set(5, 0, new eWeight(9, 3));
-        G.set(6, 0, new eWeight(8, 5));
-        G.set(6, 1, new eWeight(9, 8));
-        G.set(7, 0, new eWeight(8, 2));
-        G.set(7, 1, new eWeight(10, 7));
-        G.set(8, 0, new eWeight(10, 4));
-        G.set(9, 0, new eWeight(11, 7));
+        G.setArr(0, new int[]{1, 2, 3, 4}, new int[]{3, 3, 5, 1}); // 0 вершина, {1,2,3,4} - с кем связана, {3,3,5,1} - веса ребер соответсвенно
+        G.setArr(1, new int[]{5}, new int[]{2});
+        G.setArr(2, new int[]{3, 7}, new int[]{1, 4});
+        G.setArr(3, new int[]{4, 6, 7, 10}, new int[]{2, 3, 2, 2});
+        G.setArr(4, new int[]{5, 6}, new int[]{1, 2});
+        G.setArr(5, new int[]{9}, new int[]{3});
+        G.setArr(6, new int[]{8, 9}, new int[]{5, 8});
+        G.setArr(7, new int[]{8, 10}, new int[]{2, 7});
+        G.setArr(8, new int[]{10}, new int[]{4});
+        G.setArr(9, new int[]{11}, new int[]{7});
 
         G.kruskal(); // вызов алгоритма Крускала
         G.displayMST(); // вывод минимального остовного дерева
 
     }
-
 }
