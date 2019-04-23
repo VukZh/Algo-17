@@ -4,76 +4,40 @@ import java.util.Objects;
 
 public class graph4kruskal {
 
-    private final DArray<DArray<eWeight>> G; // граф
+    private final eWeight[][] G; // граф
+
     private final DArray<Edge> AllEdges; // массив всех ребер
     private final DArray<Edge> Edges; // массив ребер минимального остовного дерева
+
     private final DArray<Integer> Unit; // Union
+
     private int sizeEdges; // общее число ребер графа
     private int sizeEdgesKruskal; // число ребер минимального остовного дерева
     private int sizeVertex; // общее число вершин графа
 
-    graph4kruskal() {
-        G = new DArray<>();
+
+    graph4kruskal(int[][] vertex, int[][] weight) {
+        G = new eWeight[vertex.length][];
         AllEdges = new DArray<>();
         Edges = new DArray<>();
         Unit = new DArray<>();
         sizeEdges = 0;
-        sizeVertex = 0;
         sizeEdgesKruskal = 0;
+  
+        graphInit(vertex, weight); // заполняем граф
     }
 
-    graph4kruskal(int size) {
-
-        G = new DArray<>();
-        DArray<eWeight> tmp = new DArray<>();
-        tmp.add(0, null);
-        for (int i = 0; i < size; i++) {
-            G.add(i, tmp);
+    private void graphInit(int[][] v, int[][] w) {
+        for (int i = 0; i < v.length; i++) {
+            eWeight[] _w = new eWeight[v[i].length];
+            for (int j = 0; j < v[i].length; j++) {
+                _w[j] = new eWeight(v[i][j], w[i][j]);
+            }
+            G[i] = _w;
         }
-
-        AllEdges = new DArray<>();
-        Edges = new DArray<>();
-        Unit = new DArray<>();
-        sizeEdges = 0;
-        sizeVertex = size;
-        sizeEdgesKruskal = 0;
-    }
-
-    public void set(int g_i, int el_i, eWeight ew) { // установка для матрицы вектора смежности (g_i - вершина, el_i индекс массива вершин куда уходят ребра, ew - объект - вершина на которую можно уйти с g_i с весом ребра)
-        DArray<eWeight> tmp;
-        if (el_i == 0) {
-            tmp = new DArray<>();
-        } else {
-            tmp = G.get(g_i);
-        }
-        tmp.add(el_i, ew);
-        G.add(g_i, tmp);
-    }
-
-    public void setArr(int v, int[] vertex, int[] weight) { // 
-        int g_i = v;
-        int sizeArr = vertex.length;
-        for (int el_i = 0; el_i < sizeArr; el_i++) {
-            set(g_i, el_i, new eWeight(vertex[el_i], weight[el_i]));
-        }
-    }
-
-    private eWeight get(int g_i, int el_i) { // получение вершины с весом из матрицы вектора смежности (g_i - вершина с которой идет связь на нашу вершину, el_i индекс массива вершин для вершины g_i)
-        DArray<eWeight> tmp = G.get(g_i);
-        return tmp.get(el_i);
-    }
-
-    private int sizeV() { // размер матрицы вектора смежности
-        return G.size();
-    }
-
-    private int sizeS(int v) { // число вершин, на которые есть связь с вершины v
-        DArray<eWeight> tmp = G.get(v);
-        return tmp.size();
     }
 
     private void addEdge(int v1, eWeight v2) { // добавление ребра в массив всех ребер
-//        DArray<Edge> tmp;
         int v_1 = v1;
         int v_2 = v2.vertex;
         int w = v2.weight;
@@ -82,15 +46,17 @@ public class graph4kruskal {
     }
 
     private void createArrayEdges() { // заполнение массива всех ребер
-        for (int i = 0; i < sizeV(); i++) {
-            for (int j = 0; j < sizeS(i); j++) {
-                addEdge(i, get(i, j));
+        for (int i = 0; i < G.length; i++) {
+            for (int j = 0; j < G[i].length; j++) {
+                addEdge(i, G[i][j]);
             }
         }
     }
 
     public void displayArrayEdges() { // вывод массива всех ребер
         System.out.println("ArrayEdges");
+//        createArrayEdges();
+//        sortingArrayEdges();
         for (int i = 0; i < sizeEdges; i++) {
             System.out.println(i + "- " + AllEdges.get(i).V1 + " " + AllEdges.get(i).V2 + " " + AllEdges.get(i).W);
         }
@@ -142,12 +108,10 @@ public class graph4kruskal {
         sizeVertex++; // +1, т.к. считаем от нуля
     }
 
-    public void kruskal() {
+    public Edge[] kruskal() {
 
-        createArrayEdges(); // создаем массив ребер        
-//        displayArrayEdges();
+        createArrayEdges(); // создаем массив ребер 
         sortingArrayEdges(); // сортируем по весу массив ребер
-//        displayArrayEdges();
         initUnit(); // создаем Union-Find
 
         for (int i = 0; i < sizeEdges; i++) {
@@ -159,13 +123,17 @@ public class graph4kruskal {
                 setUnit(Unit.get(AllEdges.get(i).V1), Unit.get(AllEdges.get(i).V2)); // слияние
             }
         }
+        Edge[] result = new Edge[sizeEdgesKruskal];
+        for (int i = 0; i < sizeEdgesKruskal; i++) {
+            result[i] = Edges.get(i);
+        }
+        return result;
     }
 
     public void displayMST() { // вывод минимального остовного дерева
         System.out.println("Kruskal find MST:");
         for (int i = 0; i < sizeEdgesKruskal; i++) {
-            System.out.println(i + "-" + Edges.get(i).V1 + " " + Edges.get(i).V2 + " " + Edges.get(i).W);
+            System.out.println(i + "-  " + Edges.get(i).V1 + " " + Edges.get(i).V2 + " " + Edges.get(i).W);
         }
     }
-
 }

@@ -4,21 +4,40 @@ public class KruskalApp {
 
     public static void main(String[] args) {
 
-        graph4kruskal G = new graph4kruskal(10);
+        int[][] v1 = { // вершины
+            {1, 2, 3, 4},
+            {5},
+            {3, 7},
+            {4, 6, 7, 10},
+            {5, 6},
+            {9},
+            {8, 9},
+            {8, 10},
+            {10},
+            {11},};
 
-        G.setArr(0, new int[]{1, 2, 3, 4}, new int[]{3, 3, 5, 1}); // 0 вершина, {1,2,3,4} - с кем связана, {3,3,5,1} - веса ребер соответсвенно
-        G.setArr(1, new int[]{5}, new int[]{2});
-        G.setArr(2, new int[]{3, 7}, new int[]{1, 4});
-        G.setArr(3, new int[]{4, 6, 7, 10}, new int[]{2, 3, 2, 2});
-        G.setArr(4, new int[]{5, 6}, new int[]{1, 2});
-        G.setArr(5, new int[]{9}, new int[]{3});
-        G.setArr(6, new int[]{8, 9}, new int[]{5, 8});
-        G.setArr(7, new int[]{8, 10}, new int[]{2, 7});
-        G.setArr(8, new int[]{10}, new int[]{4});
-        G.setArr(9, new int[]{11}, new int[]{7});
+        int[][] w1 = { // веса вершин
+            {3, 3, 5, 1},
+            {2},
+            {1, 4},
+            {2, 3, 2, 2},
+            {1, 2},
+            {3},
+            {5, 8},
+            {2, 7},
+            {4},
+            {7},};
 
-        G.kruskal(); // вызов алгоритма Крускала
-        G.displayMST(); // вывод минимального остовного дерева
+        graph4kruskal G = new graph4kruskal(v1, w1); // инийиализация двумя массивами - вершин и весов
 
+//
+        Edge[] result = G.kruskal(); // вызов алгоритма Крускала
+
+        System.out.println("Kruskal :");
+        for (int i = 0; i < result.length; i++) {
+            System.out.println(i + "-  " + result[i].V1 + " " + result[i].V2); // + хранится вес ребра - result[i].W
+        }
+
+//        G.displayMST(); // вывод минимального остовного дерева
     }
 }
